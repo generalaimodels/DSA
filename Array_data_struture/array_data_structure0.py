@@ -6,9 +6,7 @@
 # Purpose: This file serves as an end-to-end tutorial on Array Data Structure.
 #          We cover basics to advanced concepts, including all major algorithms.
 #          Explanations are detailed, covering all aspects including edge cases,
-#          time/space complexities, and exceptions. Code is written with impeccable
-#          standards: clean, readable, efficient, and impressive for next-gen coders.
-#          Multiple examples are provided for clarity. All in one .py file.
+#          time/space complexities, and exceptions. 
 #
 # Key Notes:
 # - In Python, lists act as dynamic arrays. We'll use lists primarily, but discuss
@@ -533,11 +531,8 @@ def transpose_matrix(mat):
             trans[j][i] = mat[i][j]
     return trans
 
-print("Transposed:")
-traverse_matrix(transpose_matrix(matrix))
-# 1 4 7
-# 2 5 8
-# 3 6 9
+
+
 
 # 8.3 Rotate Matrix 90 degrees clockwise
 # Explanation: Transpose then reverse each row. O(n^2) time, in-place possible.
