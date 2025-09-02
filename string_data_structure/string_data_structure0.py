@@ -190,7 +190,7 @@ print("=== Longest Common Prefix Examples ===")
 print(longest_common_prefix(["flower", "flow", "flight"]))  # 'fl'
 print(longest_common_prefix(["dog", "racecar", "car"]))     # '' (no common)
 print(longest_common_prefix(["a"]))                         # 'a' (single)
-print(longest_common_prefix([]))  # Raises ValueError
+# print(longest_common_prefix([]))  # Raises ValueError
 try:
     longest_common_prefix([])
 except ValueError as e:
@@ -453,7 +453,7 @@ def edit_distance(s1: str, s2: str) -> int:
     n, m = len(s1), len(s2)
     dp = [[0] * (m + 1) for _ in range(n + 1)]
     for i in range(n + 1):
-        dp[i][0] = i  # Delete all from s1
+        dp[i][0] = i  # Delete all from s1 
     for j in range(m + 1):
         dp[0][j] = j  # Insert all to s2
     for i in range(1, n + 1):
@@ -601,3 +601,4 @@ print("\n")
 # Practice with variations: e.g., case-insensitive anagrams, multi-pattern search.
 # Remember: Strings are immutable—always consider copying costs in algos.
 # For production, profile for large inputs (e.g., use str built-ins where possible).
+
