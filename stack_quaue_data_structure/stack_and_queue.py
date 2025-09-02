@@ -1,7 +1,7 @@
 
 from collections import deque
 import heapq
-from typing import List, Optional, Any
+from typing import List, Optional, Any, Tuple
 
 class ArrayStack:
     def __init__(self, capacity: int = 1000):
@@ -31,6 +31,14 @@ class ArrayStack:
     
     def size(self) -> int:
         return self.top_index + 1
+
+print("ArrayStack:")
+print("Input: push(1), push(2), push(3), pop(), peek()")
+stack = ArrayStack()
+stack.push(1)
+stack.push(2)
+stack.push(3)
+print(f"Output: pop()={stack.pop()}, peek()={stack.peek()}")
 
 class ListNode:
     def __init__(self, val: Any = 0, next_node=None):
@@ -64,6 +72,13 @@ class LinkedListStack:
     def size(self) -> int:
         return self.length
 
+print("\nLinkedListStack:")
+print("Input: push(5), push(10), pop()")
+ll_stack = LinkedListStack()
+ll_stack.push(5)
+ll_stack.push(10)
+print(f"Output: pop()={ll_stack.pop()}, size()={ll_stack.size()}")
+
 class MinStack:
     def __init__(self):
         self.stack = []
@@ -87,6 +102,15 @@ class MinStack:
     
     def get_min(self) -> int:
         return self.min_stack[-1] if self.min_stack else None
+
+print("\nMinStack:")
+print("Input: push(3), push(5), push(2), push(1), get_min(), pop(), get_min()")
+min_stack = MinStack()
+min_stack.push(3)
+min_stack.push(5)
+min_stack.push(2)
+min_stack.push(1)
+print(f"Output: get_min()={min_stack.get_min()}, pop()={min_stack.pop()}, get_min()={min_stack.get_min()}")
 
 class MaxStack:
     def __init__(self):
@@ -112,6 +136,43 @@ class MaxStack:
     def get_max(self) -> int:
         return self.max_stack[-1] if self.max_stack else None
 
+print("\nMaxStack:")
+print("Input: push(1), push(5), push(3), push(7), get_max(), pop(), get_max()")
+max_stack = MaxStack()
+max_stack.push(1)
+max_stack.push(5)
+max_stack.push(3)
+max_stack.push(7)
+print(f"Output: get_max()={max_stack.get_max()}, pop()={max_stack.pop()}, get_max()={max_stack.get_max()}")
+
+class DLLNode:
+    def __init__(self, val: int):
+        self.val = val
+        self.prev = None
+        self.next = None
+
+class DoublyLinkedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+    
+    def add_to_head(self, node):
+        if not self.head:
+            self.head = self.tail = node
+        else:
+            node.next = self.head
+            self.head.prev = node
+            self.head = node
+    
+    def remove_head(self):
+        if not self.head:
+            return
+        if self.head == self.tail:
+            self.head = self.tail = None
+        else:
+            self.head = self.head.next
+            self.head.prev = None
+
 class StackWithMiddle:
     def __init__(self):
         self.dll = DoublyLinkedList()
@@ -134,40 +195,21 @@ class StackWithMiddle:
         val = self.dll.head.val
         self.dll.remove_head()
         if self.count % 2 == 1:
-            self.middle = self.middle.next
+            self.middle = self.middle.next if self.middle else None
         self.count -= 1
         return val
     
     def find_middle(self) -> int:
         return self.middle.val if self.middle else None
 
-class DLLNode:
-    def __init__(self, val: int):
-        self.val = val
-        self.prev = None
-        self.next = None
-
-class DoublyLinkedList:
-    def __init__(self):
-        self.head = None
-        self.tail = None
-    
-    def add_to_head(self, node: DLLNode):
-        if not self.head:
-            self.head = self.tail = node
-        else:
-            node.next = self.head
-            self.head.prev = node
-            self.head = node
-    
-    def remove_head(self):
-        if not self.head:
-            return
-        if self.head == self.tail:
-            self.head = self.tail = None
-        else:
-            self.head = self.head.next
-            self.head.prev = None
+print("\nStackWithMiddle:")
+print("Input: push(1), push(2), push(3), push(4), find_middle(), pop(), find_middle()")
+mid_stack = StackWithMiddle()
+mid_stack.push(1)
+mid_stack.push(2)
+mid_stack.push(3)
+mid_stack.push(4)
+print(f"Output: find_middle()={mid_stack.find_middle()}, pop()={mid_stack.pop()}, find_middle()={mid_stack.find_middle()}")
 
 class TwoStacksInArray:
     def __init__(self, capacity: int):
@@ -204,6 +246,15 @@ class TwoStacksInArray:
             return val
         return None
 
+print("\nTwoStacksInArray:")
+print("Input: push1(1), push1(2), push2(3), push2(4), pop1(), pop2()")
+two_stacks = TwoStacksInArray(10)
+two_stacks.push1(1)
+two_stacks.push1(2)
+two_stacks.push2(3)
+two_stacks.push2(4)
+print(f"Output: pop1()={two_stacks.pop1()}, pop2()={two_stacks.pop2()}")
+
 class StackUsingQueue:
     def __init__(self):
         self.q1 = deque()
@@ -223,6 +274,14 @@ class StackUsingQueue:
     
     def empty(self) -> bool:
         return len(self.q1) == 0
+
+print("\nStackUsingQueue:")
+print("Input: push(1), push(2), push(3), pop(), top()")
+stack_q = StackUsingQueue()
+stack_q.push(1)
+stack_q.push(2)
+stack_q.push(3)
+print(f"Output: pop()={stack_q.pop()}, top()={stack_q.top()}")
 
 class ExpressionEvaluator:
     @staticmethod
@@ -280,6 +339,30 @@ class ExpressionEvaluator:
                     stack.append(a // b)
         
         return stack[0]
+    
+    @staticmethod
+    def infix_to_prefix(expression: str) -> str:
+        reversed_exp = expression[::-1]
+        modified_exp = ""
+        
+        for char in reversed_exp:
+            if char == '(':
+                modified_exp += ')'
+            elif char == ')':
+                modified_exp += '('
+            else:
+                modified_exp += char
+        
+        postfix = ExpressionEvaluator.infix_to_postfix(modified_exp)
+        return postfix[::-1]
+
+print("\nExpressionEvaluator:")
+print("Input: 'a+b*c', '231*+9-'")
+expr = "a+b*c"
+postfix = ExpressionEvaluator.infix_to_postfix(expr)
+print(f"Output: infix_to_postfix('{expr}')='{postfix}'")
+result = ExpressionEvaluator.evaluate_postfix("231*+9-")
+print(f"Output: evaluate_postfix('231*+9-')={result}")
 
 class ParenthesesValidator:
     @staticmethod
@@ -295,6 +378,70 @@ class ParenthesesValidator:
                 stack.append(char)
         
         return not stack
+    
+    @staticmethod
+    def longest_valid_parentheses(s: str) -> int:
+        stack = [-1]
+        max_len = 0
+        
+        for i, char in enumerate(s):
+            if char == '(':
+                stack.append(i)
+            else:
+                stack.pop()
+                if not stack:
+                    stack.append(i)
+                else:
+                    max_len = max(max_len, i - stack[-1])
+        
+        return max_len
+    
+    @staticmethod
+    def remove_invalid_parentheses(s: str) -> List[str]:
+        left_rem = right_rem = 0
+        
+        for char in s:
+            if char == '(':
+                left_rem += 1
+            elif char == ')':
+                if left_rem > 0:
+                    left_rem -= 1
+                else:
+                    right_rem += 1
+        
+        result = set()
+        
+        def backtrack(index, left_count, right_count, left_rem, right_rem, expr):
+            if index == len(s):
+                if left_rem == 0 and right_rem == 0:
+                    result.add(expr)
+                return
+            
+            char = s[index]
+            
+            if char == '(' and left_rem > 0:
+                backtrack(index + 1, left_count, right_count, left_rem - 1, right_rem, expr)
+            
+            if char == ')' and right_rem > 0:
+                backtrack(index + 1, left_count, right_count, left_rem, right_rem - 1, expr)
+            
+            expr += char
+            
+            if char != '(' and char != ')':
+                backtrack(index + 1, left_count, right_count, left_rem, right_rem, expr)
+            elif char == '(':
+                backtrack(index + 1, left_count + 1, right_count, left_rem, right_rem, expr)
+            elif char == ')' and left_count > right_count:
+                backtrack(index + 1, left_count, right_count + 1, left_rem, right_rem, expr)
+        
+        backtrack(0, 0, 0, left_rem, right_rem, "")
+        return list(result)
+
+print("\nParenthesesValidator:")
+print("Input: '()[]{}', '(()', '()())'")
+print(f"Output: is_valid('()[]')={ParenthesesValidator.is_valid('()[]{}')}")
+print(f"Output: is_valid('(()')={ParenthesesValidator.is_valid('(()')}")
+print(f"Output: longest_valid_parentheses('()())')={ParenthesesValidator.longest_valid_parentheses('()())')}")
 
 class NextGreaterElement:
     @staticmethod
@@ -310,6 +457,39 @@ class NextGreaterElement:
                 stack.append(i)
         
         return result
+    
+    @staticmethod
+    def next_greater_element_i(nums1: List[int], nums2: List[int]) -> List[int]:
+        stack = []
+        mapping = {}
+        
+        for num in nums2:
+            while stack and stack[-1] < num:
+                mapping[stack.pop()] = num
+            stack.append(num)
+        
+        return [mapping.get(num, -1) for num in nums1]
+    
+    @staticmethod
+    def daily_temperatures(temperatures: List[int]) -> List[int]:
+        n = len(temperatures)
+        result = [0] * n
+        stack = []
+        
+        for i in range(n):
+            while stack and temperatures[i] > temperatures[stack[-1]]:
+                prev_index = stack.pop()
+                result[prev_index] = i - prev_index
+            stack.append(i)
+        
+        return result
+
+print("\nNextGreaterElement:")
+print("Input: [1, 2, 1], [1, 3, 4, 2]")
+nge = NextGreaterElement.next_greater_elements([1, 2, 1])
+print(f"Output: next_greater_elements([1, 2, 1])={nge}")
+temps = NextGreaterElement.daily_temperatures([73, 74, 75, 71, 69, 72, 76, 73])
+print(f"Output: daily_temperatures([73, 74, 75, 71, 69, 72, 76, 73])={temps}")
 
 class LargestRectangleHistogram:
     @staticmethod
@@ -335,6 +515,27 @@ class LargestRectangleHistogram:
             max_area = max(max_area, area)
         
         return max_area
+    
+    @staticmethod
+    def maximal_rectangle(matrix: List[List[str]]) -> int:
+        if not matrix or not matrix[0]:
+            return 0
+        
+        heights = [0] * len(matrix[0])
+        max_area = 0
+        
+        for row in matrix:
+            for i in range(len(row)):
+                heights[i] = heights[i] + 1 if row[i] == '1' else 0
+            
+            max_area = max(max_area, LargestRectangleHistogram.largest_rectangle_area(heights))
+        
+        return max_area
+
+print("\nLargestRectangleHistogram:")
+print("Input: [2, 1, 5, 6, 2, 3]")
+area = LargestRectangleHistogram.largest_rectangle_area([2, 1, 5, 6, 2, 3])
+print(f"Output: largest_rectangle_area([2, 1, 5, 6, 2, 3])={area}")
 
 class StockSpanProblem:
     def __init__(self):
@@ -350,6 +551,26 @@ class StockSpanProblem:
         self.index += 1
         
         return span
+    
+    @staticmethod
+    def calculate_span(prices: List[int]) -> List[int]:
+        stack = []
+        spans = []
+        
+        for i, price in enumerate(prices):
+            while stack and prices[stack[-1]] <= price:
+                stack.pop()
+            
+            span = i + 1 if not stack else i - stack[-1]
+            spans.append(span)
+            stack.append(i)
+        
+        return spans
+
+print("\nStockSpanProblem:")
+print("Input: [100, 80, 60, 70, 60, 75, 85]")
+spans = StockSpanProblem.calculate_span([100, 80, 60, 70, 60, 75, 85])
+print(f"Output: calculate_span([100, 80, 60, 70, 60, 75, 85])={spans}")
 
 class StackSorter:
     @staticmethod
@@ -370,6 +591,187 @@ class StackSorter:
         temp = stack.pop()
         StackSorter.sorted_insert(stack, item)
         stack.append(temp)
+
+print("\nStackSorter:")
+print("Input: [3, 1, 4, 1, 5]")
+sort_stack = [3, 1, 4, 1, 5]
+StackSorter.sort_stack(sort_stack)
+print(f"Output: sort_stack([3, 1, 4, 1, 5])={sort_stack}")
+
+class TrappingRainWater:
+    @staticmethod
+    def trap(height: List[int]) -> int:
+        if not height:
+            return 0
+        
+        stack = []
+        water = 0
+        
+        for i in range(len(height)):
+            while stack and height[i] > height[stack[-1]]:
+                top = stack.pop()
+                if not stack:
+                    break
+                
+                distance = i - stack[-1] - 1
+                bounded_height = min(height[i], height[stack[-1]]) - height[top]
+                water += distance * bounded_height
+            
+            stack.append(i)
+        
+        return water
+
+print("\nTrappingRainWater:")
+print("Input: [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]")
+trapped = TrappingRainWater.trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])
+print(f"Output: trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1])={trapped}")
+
+class AsteroidCollision:
+    @staticmethod
+    def asteroid_collision(asteroids: List[int]) -> List[int]:
+        stack = []
+        
+        for asteroid in asteroids:
+            while stack and asteroid < 0 < stack[-1]:
+                if stack[-1] < -asteroid:
+                    stack.pop()
+                    continue
+                elif stack[-1] == -asteroid:
+                    stack.pop()
+                break
+            else:
+                stack.append(asteroid)
+        
+        return stack
+
+print("\nAsteroidCollision:")
+print("Input: [5, 10, -5], [8, -8], [10, 2, -5]")
+result1 = AsteroidCollision.asteroid_collision([5, 10, -5])
+result2 = AsteroidCollision.asteroid_collision([8, -8])
+result3 = AsteroidCollision.asteroid_collision([10, 2, -5])
+print(f"Output: asteroid_collision([5, 10, -5])={result1}")
+print(f"Output: asteroid_collision([8, -8])={result2}")
+print(f"Output: asteroid_collision([10, 2, -5])={result3}")
+
+class DecodeString:
+    @staticmethod
+    def decode_string(s: str) -> str:
+        stack = []
+        current_string = ""
+        current_num = 0
+        
+        for char in s:
+            if char.isdigit():
+                current_num = current_num * 10 + int(char)
+            elif char == '[':
+                stack.append((current_string, current_num))
+                current_string = ""
+                current_num = 0
+            elif char == ']':
+                prev_string, num = stack.pop()
+                current_string = prev_string + current_string * num
+            else:
+                current_string += char
+        
+        return current_string
+
+print("\nDecodeString:")
+print("Input: '3[a]2[bc]', '3[a2[c]]', '2[abc]3[cd]ef'")
+decoded1 = DecodeString.decode_string("3[a]2[bc]")
+decoded2 = DecodeString.decode_string("3[a2[c]]")
+decoded3 = DecodeString.decode_string("2[abc]3[cd]ef")
+print(f"Output: decode_string('3[a]2[bc]')='{decoded1}'")
+print(f"Output: decode_string('3[a2[c]]')='{decoded2}'")
+print(f"Output: decode_string('2[abc]3[cd]ef')='{decoded3}'")
+
+class RemoveDuplicateLetters:
+    @staticmethod
+    def remove_duplicate_letters(s: str) -> str:
+        last_occurrence = {char: i for i, char in enumerate(s)}
+        stack = []
+        in_stack = set()
+        
+        for i, char in enumerate(s):
+            if char in in_stack:
+                continue
+            
+            while (stack and stack[-1] > char and 
+                   last_occurrence[stack[-1]] > i):
+                removed = stack.pop()
+                in_stack.remove(removed)
+            
+            stack.append(char)
+            in_stack.add(char)
+        
+        return ''.join(stack)
+
+print("\nRemoveDuplicateLetters:")
+print("Input: 'bcabc', 'cbacdcbc'")
+result1 = RemoveDuplicateLetters.remove_duplicate_letters("bcabc")
+result2 = RemoveDuplicateLetters.remove_duplicate_letters("cbacdcbc")
+print(f"Output: remove_duplicate_letters('bcabc')='{result1}'")
+print(f"Output: remove_duplicate_letters('cbacdcbc')='{result2}'")
+
+class BasicCalculator:
+    @staticmethod
+    def calculate(s: str) -> int:
+        stack = []
+        num = 0
+        sign = '+'
+        
+        for i, char in enumerate(s):
+            if char.isdigit():
+                num = num * 10 + int(char)
+            
+            if char in '+-*/' or i == len(s) - 1:
+                if sign == '+':
+                    stack.append(num)
+                elif sign == '-':
+                    stack.append(-num)
+                elif sign == '*':
+                    stack.append(stack.pop() * num)
+                elif sign == '/':
+                    last = stack.pop()
+                    stack.append(int(last / num))
+                
+                sign = char
+                num = 0
+        
+        return sum(stack)
+
+print("\nBasicCalculator:")
+print("Input: '3+2*2', ' 3/2 ', ' 3+5 / 2 '")
+calc1 = BasicCalculator.calculate("3+2*2")
+calc2 = BasicCalculator.calculate(" 3/2 ")
+calc3 = BasicCalculator.calculate(" 3+5 / 2 ")
+print(f"Output: calculate('3+2*2')={calc1}")
+print(f"Output: calculate(' 3/2 ')={calc2}")
+print(f"Output: calculate(' 3+5 / 2 ')={calc3}")
+
+class ScoreOfParentheses:
+    @staticmethod
+    def score_of_parentheses(s: str) -> int:
+        stack = [0]
+        
+        for char in s:
+            if char == '(':
+                stack.append(0)
+            else:
+                v = stack.pop()
+                stack[-1] += max(2 * v, 1)
+        
+        return stack[0]
+
+print("\nScoreOfParentheses:")
+print("Input: '()', '(())', '()()', '(()(()))'")
+score1 = ScoreOfParentheses.score_of_parentheses("()")
+score2 = ScoreOfParentheses.score_of_parentheses("(())")
+score3 = ScoreOfParentheses.score_of_parentheses("()()")
+score4 = ScoreOfParentheses.score_of_parentheses("(()(()))")
+print(f"Output: score_of_parentheses('()')={score1}")
+print(f"Output: score_of_parentheses('(())')={score2}")
+print(f"Output: score_of_parentheses('()()')={score3}")
+print(f"Output: score_of_parentheses('(()(()))')={score4}")
 
 class ArrayQueue:
     def __init__(self, capacity: int = 1000):
@@ -404,6 +806,14 @@ class ArrayQueue:
     def is_full(self) -> bool:
         return self.size == self.capacity
 
+print("\nArrayQueue:")
+print("Input: enqueue(1), enqueue(2), enqueue(3), dequeue(), peek()")
+queue = ArrayQueue()
+queue.enqueue(1)
+queue.enqueue(2)
+queue.enqueue(3)
+print(f"Output: dequeue()={queue.dequeue()}, peek()={queue.peek()}")
+
 class LinkedListQueue:
     def __init__(self):
         self.front = None
@@ -437,6 +847,13 @@ class LinkedListQueue:
     
     def get_size(self) -> int:
         return self.size
+
+print("\nLinkedListQueue:")
+print("Input: enqueue(5), enqueue(10), dequeue(), get_size()")
+ll_queue = LinkedListQueue()
+ll_queue.enqueue(5)
+ll_queue.enqueue(10)
+print(f"Output: dequeue()={ll_queue.dequeue()}, get_size()={ll_queue.get_size()}")
 
 class CircularQueue:
     def __init__(self, k: int):
@@ -476,6 +893,15 @@ class CircularQueue:
     def is_full(self) -> bool:
         return ((self.tail + 1) % self.size) == self.head
 
+print("\nCircularQueue:")
+print("Input: enqueue(1), enqueue(2), enqueue(3), dequeue(), front(), rear()")
+circular_queue = CircularQueue(3)
+circular_queue.enqueue(1)
+circular_queue.enqueue(2)
+circular_queue.enqueue(3)
+circular_queue.dequeue()
+print(f"Output: front()={circular_queue.front()}, rear()={circular_queue.rear()}")
+
 class Deque:
     def __init__(self):
         self.items = []
@@ -497,6 +923,14 @@ class Deque:
     
     def size(self) -> int:
         return len(self.items)
+
+print("\nDeque:")
+print("Input: add_front(1), add_rear(2), add_front(3), remove_rear(), remove_front()")
+dq = Deque()
+dq.add_front(1)
+dq.add_rear(2)
+dq.add_front(3)
+print(f"Output: remove_rear()={dq.remove_rear()}, remove_front()={dq.remove_front()}")
 
 class PriorityQueue:
     def __init__(self, is_min_heap: bool = True):
@@ -521,6 +955,14 @@ class PriorityQueue:
     def is_empty(self) -> bool:
         return len(self.heap) == 0
 
+print("\nPriorityQueue:")
+print("Input: push('task1', 3), push('task2', 1), push('task3', 2), pop(), pop()")
+pq = PriorityQueue()
+pq.push('task1', 3)
+pq.push('task2', 1)
+pq.push('task3', 2)
+print(f"Output: pop()={pq.pop()}, pop()={pq.pop()}")
+
 class QueueUsingStacks:
     def __init__(self):
         self.in_stack = []
@@ -542,6 +984,13 @@ class QueueUsingStacks:
     def empty(self) -> bool:
         return not self.in_stack and not self.out_stack
 
+print("\nQueueUsingStacks:")
+print("Input: push(1), push(2), peek(), pop(), empty()")
+queue_stack = QueueUsingStacks()
+queue_stack.push(1)
+queue_stack.push(2)
+print(f"Output: peek()={queue_stack.peek()}, pop()={queue_stack.pop()}, empty()={queue_stack.empty()}")
+
 class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity
@@ -551,23 +1000,23 @@ class LRUCache:
         self.head.next = self.tail
         self.tail.prev = self.head
     
-    def add_node(self, node: DLLNode):
+    def add_node(self, node):
         node.prev = self.head
         node.next = self.head.next
         self.head.next.prev = node
         self.head.next = node
     
-    def remove_node(self, node: DLLNode):
+    def remove_node(self, node):
         prev_node = node.prev
         new_node = node.next
         prev_node.next = new_node
         new_node.prev = prev_node
     
-    def move_to_head(self, node: DLLNode):
+    def move_to_head(self, node):
         self.remove_node(node)
         self.add_node(node)
     
-    def pop_tail(self) -> DLLNode:
+    def pop_tail(self):
         last_node = self.tail.prev
         self.remove_node(last_node)
         return last_node
@@ -593,6 +1042,20 @@ class LRUCache:
             node.val = value
             self.move_to_head(node)
 
+print("\nLRUCache:")
+print("Input: capacity=2, put(1,1), put(2,2), get(1), put(3,3), get(2), put(4,4), get(1), get(3), get(4)")
+lru = LRUCache(2)
+lru.put(1, 1)
+lru.put(2, 2)
+get1 = lru.get(1)
+lru.put(3, 3)
+get2 = lru.get(2)
+lru.put(4, 4)
+get3 = lru.get(1)
+get4 = lru.get(3)
+get5 = lru.get(4)
+print(f"Output: get(1)={get1}, get(2)={get2}, get(1)={get3}, get(3)={get4}, get(4)={get5}")
+
 class SlidingWindowMaximum:
     @staticmethod
     def max_sliding_window(nums: List[int], k: int) -> List[int]:
@@ -613,6 +1076,11 @@ class SlidingWindowMaximum:
         
         return result
 
+print("\nSlidingWindowMaximum:")
+print("Input: [1,3,-1,-3,5,3,6,7], k=3")
+max_window = SlidingWindowMaximum.max_sliding_window([1, 3, -1, -3, 5, 3, 6, 7], 3)
+print(f"Output: max_sliding_window([1,3,-1,-3,5,3,6,7], 3)={max_window}")
+
 class FirstNonRepeatingCharacter:
     def __init__(self):
         self.queue = deque()
@@ -627,6 +1095,14 @@ class FirstNonRepeatingCharacter:
         
         return self.queue[0] if self.queue else '#'
 
+print("\nFirstNonRepeatingCharacter:")
+print("Input: stream = 'aabc'")
+fnr = FirstNonRepeatingCharacter()
+results = []
+for char in 'aabc':
+    results.append(fnr.first_non_repeating(char))
+print(f"Output: first_non_repeating('aabc')={results}")
+
 class BinaryNumberGenerator:
     @staticmethod
     def generate_binary_numbers(n: int) -> List[str]:
@@ -640,6 +1116,11 @@ class BinaryNumberGenerator:
             queue.append(front + '1')
         
         return result
+
+print("\nBinaryNumberGenerator:")
+print("Input: n=5")
+binary_nums = BinaryNumberGenerator.generate_binary_numbers(5)
+print(f"Output: generate_binary_numbers(5)={binary_nums}")
 
 class RottenOranges:
     @staticmethod
@@ -680,6 +1161,12 @@ class RottenOranges:
         
         return minutes if fresh_count == 0 else -1
 
+print("\nRottenOranges:")
+print("Input: [[2,1,1],[1,1,0],[0,1,1]]")
+grid = [[2, 1, 1], [1, 1, 0], [0, 1, 1]]
+time_to_rot = RottenOranges.oranges_rotting(grid)
+print(f"Output: oranges_rotting([[2,1,1],[1,1,0],[0,1,1]])={time_to_rot}")
+
 class MonotonicQueue:
     def __init__(self):
         self.data = deque()
@@ -696,64 +1183,164 @@ class MonotonicQueue:
         if self.data and self.data[0] == val:
             self.data.popleft()
 
-class QueueWithMinMax:
-    def __init__(self):
-        self.data = deque()
-        self.min_deque = deque()
-        self.max_deque = deque()
-    
-    def enqueue(self, val: int):
-        self.data.append(val)
-        
-        while self.min_deque and self.min_deque[-1] > val:
-            self.min_deque.pop()
-        self.min_deque.append(val)
-        
-        while self.max_deque and self.max_deque[-1] < val:
-            self.max_deque.pop()
-        self.max_deque.append(val)
-    
-    def dequeue(self) -> int:
-        if not self.data:
-            return None
-        
-        val = self.data.popleft()
-        
-        if self.min_deque and self.min_deque[0] == val:
-            self.min_deque.popleft()
-        
-        if self.max_deque and self.max_deque[0] == val:
-            self.max_deque.popleft()
-        
-        return val
-    
-    def get_min(self) -> int:
-        return self.min_deque[0] if self.min_deque else None
-    
-    def get_max(self) -> int:
-        return self.max_deque[0] if self.max_deque else None
+print("\nMonotonicQueue:")
+print("Input: push(3), push(1), push(4), max(), pop(3), max()")
+mono_q = MonotonicQueue()
+mono_q.push(3)
+mono_q.push(1)
+mono_q.push(4)
+max1 = mono_q.max()
+mono_q.pop(3)
+max2 = mono_q.max()
+print(f"Output: max()={max1}, after pop(3) max()={max2}")
 
-class StackPermutationChecker:
+class InterleaveQueue:
     @staticmethod
-    def is_stack_permutation(input_seq: List[int], output_seq: List[int]) -> bool:
-        if len(input_seq) != len(output_seq):
-            return False
+    def interleave_queue(queue: deque) -> deque:
+        if len(queue) % 2 != 0:
+            return queue
         
         stack = []
-        input_idx = 0
+        half_size = len(queue) // 2
         
-        for num in output_seq:
-            while (input_idx < len(input_seq) and 
-                   (not stack or stack[-1] != num)):
-                stack.append(input_seq[input_idx])
-                input_idx += 1
+        for _ in range(half_size):
+            stack.append(queue.popleft())
+        
+        while stack:
+            queue.append(stack.pop())
+        
+        for _ in range(half_size):
+            queue.append(queue.popleft())
+        
+        for _ in range(half_size):
+            stack.append(queue.popleft())
+        
+        while stack:
+            queue.appendleft(stack.pop())
+            queue.appendleft(queue.pop())
+        
+        return queue
+
+print("\nInterleaveQueue:")
+print("Input: [1, 2, 3, 4, 5, 6, 7, 8]")
+test_queue = deque([1, 2, 3, 4, 5, 6, 7, 8])
+interleaved = InterleaveQueue.interleave_queue(test_queue)
+print(f"Output: interleave_queue([1, 2, 3, 4, 5, 6, 7, 8])={list(interleaved)}")
+
+class ReverseQueue:
+    @staticmethod
+    def reverse_queue(queue: deque) -> deque:
+        if not queue:
+            return queue
+        
+        front = queue.popleft()
+        ReverseQueue.reverse_queue(queue)
+        queue.append(front)
+        return queue
+    
+    @staticmethod
+    def reverse_first_k_elements(queue: deque, k: int) -> deque:
+        if k <= 0 or k > len(queue):
+            return queue
+        
+        stack = []
+        
+        for _ in range(k):
+            stack.append(queue.popleft())
+        
+        while stack:
+            queue.append(stack.pop())
+        
+        for _ in range(len(queue) - k):
+            queue.append(queue.popleft())
+        
+        return queue
+
+print("\nReverseQueue:")
+print("Input: [1, 2, 3, 4, 5], k=3")
+test_queue = deque([1, 2, 3, 4, 5])
+reversed_k = ReverseQueue.reverse_first_k_elements(test_queue, 3)
+print(f"Output: reverse_first_k_elements([1, 2, 3, 4, 5], 3)={list(reversed_k)}")
+
+class CircularTour:
+    @staticmethod
+    def first_circular_tour(petrol: List[int], distance: List[int]) -> int:
+        n = len(petrol)
+        start = 0
+        curr_petrol = 0
+        total_petrol = 0
+        total_distance = 0
+        
+        for i in range(n):
+            total_petrol += petrol[i]
+            total_distance += distance[i]
+            curr_petrol += petrol[i] - distance[i]
             
-            if not stack or stack[-1] != num:
+            if curr_petrol < 0:
+                start = i + 1
+                curr_petrol = 0
+        
+        return start if total_petrol >= total_distance else -1
+
+print("\nCircularTour:")
+print("Input: petrol=[1, 2, 3, 4, 5], distance=[3, 4, 5, 1, 2]")
+tour_start = CircularTour.first_circular_tour([1, 2, 3, 4, 5], [3, 4, 5, 1, 2])
+print(f"Output: first_circular_tour([1, 2, 3, 4, 5], [3, 4, 5, 1, 2])={tour_start}")
+
+class QueueSortChecker:
+    @staticmethod
+    def can_sort_queue(queue: List[int]) -> bool:
+        stack = []
+        expected = 1
+        i = 0
+        
+        while i < len(queue) or stack:
+            if i < len(queue) and queue[i] == expected:
+                expected += 1
+                i += 1
+            elif stack and stack[-1] == expected:
+                stack.pop()
+                expected += 1
+            elif i < len(queue):
+                stack.append(queue[i])
+                i += 1
+            else:
                 return False
-            
-            stack.pop()
         
         return True
+
+print("\nQueueSortChecker:")
+print("Input: [5, 1, 2, 3, 4], [5, 1, 2, 6, 3, 4]")
+can_sort1 = QueueSortChecker.can_sort_queue([5, 1, 2, 3, 4])
+can_sort2 = QueueSortChecker.can_sort_queue([5, 1, 2, 6, 3, 4])
+print(f"Output: can_sort_queue([5, 1, 2, 3, 4])={can_sort1}")
+print(f"Output: can_sort_queue([5, 1, 2, 6, 3, 4])={can_sort2}")
+
+class StackReverser:
+    @staticmethod
+    def reverse_stack(stack: List[int]):
+        if not stack:
+            return
+        
+        temp = stack.pop()
+        StackReverser.reverse_stack(stack)
+        StackReverser.insert_at_bottom(stack, temp)
+    
+    @staticmethod
+    def insert_at_bottom(stack: List[int], item: int):
+        if not stack:
+            stack.append(item)
+            return
+        
+        temp = stack.pop()
+        StackReverser.insert_at_bottom(stack, item)
+        stack.append(temp)
+
+print("\nStackReverser:")
+print("Input: [1, 2, 3, 4, 5]")
+reverse_stack = [1, 2, 3, 4, 5]
+StackReverser.reverse_stack(reverse_stack)
+print(f"Output: reverse_stack([1, 2, 3, 4, 5])={reverse_stack}")
 
 class CelebrityFinder:
     @staticmethod
@@ -779,22 +1366,83 @@ class CelebrityFinder:
         
         return candidate
 
-class StackReverser:
+print("\nCelebrityFinder:")
+print("Input: knows_matrix=[[1,1,0],[0,1,0],[1,1,1]]")
+celebrity = CelebrityFinder.find_celebrity([[1, 1, 0], [0, 1, 0], [1, 1, 1]])
+print(f"Output: find_celebrity([[1,1,0],[0,1,0],[1,1,1]])={celebrity}")
+
+class StackPermutationChecker:
     @staticmethod
-    def reverse_stack(stack: List[int]):
-        if not stack:
-            return
+    def is_stack_permutation(input_seq: List[int], output_seq: List[int]) -> bool:
+        if len(input_seq) != len(output_seq):
+            return False
         
-        temp = stack.pop()
-        StackReverser.reverse_stack(stack)
-        StackReverser.insert_at_bottom(stack, temp)
+        stack = []
+        input_idx = 0
+        
+        for num in output_seq:
+            while (input_idx < len(input_seq) and 
+                   (not stack or stack[-1] != num)):
+                stack.append(input_seq[input_idx])
+                input_idx += 1
+            
+            if not stack or stack[-1] != num:
+                return False
+            
+            stack.pop()
+        
+        return True
+
+print("\nStackPermutationChecker:")
+print("Input: input=[1, 2, 3], output=[2, 1, 3]")
+is_valid_perm = StackPermutationChecker.is_stack_permutation([1, 2, 3], [2, 1, 3])
+print(f"Output: is_stack_permutation([1, 2, 3], [2, 1, 3])={is_valid_perm}")
+
+class QueueWithMiddle:
+    def __init__(self):
+        self.queue = deque()
     
-    @staticmethod
-    def insert_at_bottom(stack: List[int], item: int):
-        if not stack:
-            stack.append(item)
-            return
+    def enqueue_front(self, x: int):
+        self.queue.appendleft(x)
+    
+    def enqueue_rear(self, x: int):
+        self.queue.append(x)
+    
+    def dequeue_front(self) -> int:
+        return self.queue.popleft() if self.queue else None
+    
+    def dequeue_rear(self) -> int:
+        return self.queue.pop() if self.queue else None
+    
+    def get_middle(self) -> int:
+        if not self.queue:
+            return None
+        n = len(self.queue)
+        return self.queue[n // 2]
+    
+    def delete_middle(self) -> int:
+        if not self.queue:
+            return None
+        n = len(self.queue)
+        mid_idx = n // 2
+        temp_queue = deque()
         
-        temp = stack.pop()
-        StackReverser.insert_at_bottom(stack, item)
-        stack.append(temp)
+        for _ in range(mid_idx):
+            temp_queue.append(self.queue.popleft())
+        
+        middle = self.queue.popleft()
+        
+        while temp_queue:
+            self.queue.appendleft(temp_queue.pop())
+        
+        return middle
+
+print("\nQueueWithMiddle:")
+print("Input: enqueue_rear(1), enqueue_rear(2), enqueue_rear(3), get_middle(), delete_middle()")
+queue_mid = QueueWithMiddle()
+queue_mid.enqueue_rear(1)
+queue_mid.enqueue_rear(2)
+queue_mid.enqueue_rear(3)
+middle = queue_mid.get_middle()
+deleted_middle = queue_mid.delete_middle()
+print(f"Output: get_middle()={middle}, delete_middle()={deleted_middle}")
